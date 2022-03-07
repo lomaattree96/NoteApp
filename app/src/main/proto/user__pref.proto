@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+//import public "other.proto";
+package com.example.tasks;
+option java_package = "com.example.tasks";
+option java_multiple_files = true;
+
+
+message UserPreferences{
+  // filter for showing / hiding completed tasks
+  bool show_completed = 1;
+  SortOrder sort_order = 2;
+  // user selected tasks sorting order
+}
+  // defines tasks sorting order: no order, by deadline, by priority, by deadline and priority
+  enum SortOrder {
+    UNSPECIFIED = 0;
+    NONE = 1;
+    BY_DEADLINE = 2;
+    BY_PRIORITY = 3;
+    BY_DEADLINE_AND_PRIORITY = 4;
+  }
+
+
