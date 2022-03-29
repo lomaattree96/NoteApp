@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tasks.MainActivity
 import com.example.tasks.core.util.TestTags
 import com.example.tasks.di.AppModule
+import com.example.tasks.ui.theme.TasksTheme
 import com.example.tasks.ui.viewmodels.notes_screens.NotesScreen
 import com.example.tasks.util.Nav_Screen
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -30,6 +31,8 @@ import org.junit.Test
 //looks in all of our directory
 // our actual test case
 //should be able to inject dependancies with dagger hilt
+
+//@Androidentrypoint is required to do injection in our viewmodel
 @HiltAndroidTest
 @UninstallModules(AppModule::class)
 
@@ -55,10 +58,12 @@ class Notes__ScreenTest{
         //to setup our screen
         //UI TESTING
         composeRule.setContent {
-            //want to wrap around the navhost.. that way hilt will automatically inject our viewmodels as bind to our nav graph
+            //contains the stuff which is necessary to be tested
+            //want to wrap around the notescreen --- navhost.. that way hilt will automatically inject our viewmodels as bind to our nav graph
 
             val navController = rememberNavController()
-            NavHost(
+            TasksTheme {
+                NavHost(
                 navController = navController,
                 startDestination = Nav_Screen.NotesScreen.route
             ) {
@@ -66,14 +71,19 @@ class Notes__ScreenTest{
                     NotesScreen(navController = navController)
                 }
             }
+            }
+
         }
     }
 
 
     @Test
     fun ClickOrderToggleSectiion_isVisible() {
+        //UI test for note screen
+        //first needs to find a  part which contains a specific UI component for UI
+        //then either it should do assertion or action
         composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertDoesNotExist()
-        //make the order sectoin visible
+        //make the order section visible
         composeRule.onNodeWithContentDescription("Sort").performClick()
         composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertIsDisplayed()
     }
