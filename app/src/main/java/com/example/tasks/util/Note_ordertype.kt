@@ -1,6 +1,6 @@
 package com.example.tasks.util
 
-sealed class Ordertype(){
+sealed class Ordertype{
     object  Ascending : Ordertype()
     object Descending :Ordertype()
 

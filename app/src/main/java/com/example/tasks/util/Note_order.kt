@@ -1,7 +1,7 @@
 package com.example.tasks.util
-
+//for sorting purpose
 sealed class Note_order(
-    var ordertype : Ordertype
+    val ordertype : Ordertype
 ){
     class Title(ordertype : Ordertype):Note_order(ordertype)
     class Date(ordertype :Ordertype) :Note_order(ordertype)

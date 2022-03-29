@@ -20,8 +20,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.tasks.data.model.Notes
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.core.graphics.ColorUtils
+import com.example.tasks.core.util.TestTags
+
+
+//notes view
 
 @Composable
 fun NoteItem(
@@ -33,6 +38,7 @@ fun NoteItem(
 ) {
     Box(
         modifier = modifier
+            .testTag(TestTags.NOTE_ITEM)
     ) {
         Canvas(modifier = Modifier.matchParentSize()) {
             val clipPath = Path().apply {
@@ -51,6 +57,9 @@ fun NoteItem(
                 )
                 drawRoundRect(
                     color = Color(
+                        //Blend between two ARGB colors using the given ratio.
+                        //A blend ratio of 0.0 will result in color1, 0.5 will give an even blend, 1.0 will result in color2.
+
                         ColorUtils.blendARGB(note.color, 0x000000, 0.2f)
                     ),
                     topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),

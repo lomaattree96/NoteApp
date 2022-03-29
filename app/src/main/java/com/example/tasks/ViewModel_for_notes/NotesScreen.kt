@@ -13,23 +13,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.tasks.ui.model.notes.components.NoteItem
 import com.example.tasks.ui.model.notes.components.OrderSection
 import com.example.tasks.ViewModel_for_notes.NotesViewModel
+import com.example.tasks.core.util.TestTags
+
 import com.example.tasks.util.Nav_Screen
 import kotlinx.coroutines.launch
 
-
-
-
 @ExperimentalAnimationApi
 @Composable
-fun NotesScreen(navController: NavController) {
-    val viewModel : NotesViewModel = hiltViewModel()
-
+fun NotesScreen(
+    navController: NavController,
+    viewModel: NotesViewModel = hiltViewModel()
+) {
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -42,7 +43,7 @@ fun NotesScreen(navController: NavController) {
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
         },
         scaffoldState = scaffoldState
@@ -80,7 +81,8 @@ fun NotesScreen(navController: NavController) {
                 OrderSection(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                        .padding(vertical = 16.dp)
+                        .testTag(TestTags.ORDER_SECTION),
                     noteOrder = state.noteOrder,
                     onOrderChange = {
                         viewModel.onEvent(NotesEvent.Order(it))
@@ -89,33 +91,35 @@ fun NotesScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.notes) {    note->
+                items(state.notes) { note ->
                     NoteItem(
                         note = note,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
                                 navController.navigate(
-                                  Nav_Screen.AddEditNoteScreen.route
-                                          //+
-                                         //   "?noteId=${Notes.id}&noteColor=${Notes.note_colors}"
+                                    Nav_Screen.AddEditNoteScreen.route +
+                                            "?noteId=${note.id}&noteColor=${note.color}"
                                 )
-                            }
-                    ) {
-                        viewModel.onEvent(NotesEvent.DeleteNote(note))
-                        scope.launch {
-                            val result = scaffoldState.snackbarHostState.showSnackbar(
-                                message = "Note deleted",
-                                actionLabel = "Undo"
-                            )
-                            if (result == SnackbarResult.ActionPerformed) {
-                                viewModel.onEvent(NotesEvent.RestoreNote)
+                            },
+                        onDeleteClick = {
+                            viewModel.onEvent(NotesEvent.DeleteNote(note))
+                            scope.launch {
+                                val result = scaffoldState.snackbarHostState.showSnackbar(
+                                    message = "Note deleted",
+                                    actionLabel = "Undo"
+                                )
+                                if(result == SnackbarResult.ActionPerformed) {
+                                    viewModel.onEvent(NotesEvent.RestoreNote)
+                                }
                             }
                         }
-                    }
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
     }
 }
+
+

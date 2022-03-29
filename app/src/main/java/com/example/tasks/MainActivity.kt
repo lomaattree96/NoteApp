@@ -19,6 +19,8 @@ import com.example.tasks.ui.theme.TasksTheme
 import com.example.tasks.ui.viewmodels.notes_screens.NotesScreen
 import com.example.tasks.util.Nav_Screen
 import dagger.hilt.android.AndroidEntryPoint
+
+//@EntryPoint annotation which is used to inject dependencies in classes not supported by Hilt.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @ExperimentalAnimationApi

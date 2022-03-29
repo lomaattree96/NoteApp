@@ -26,7 +26,9 @@ class NotesViewModel @Inject constructor(
     val state: State<NotesState> = _state
 
     private var recentlyDeletedNote: Notes? = null
-
+//a job is a cancellable thing with a life-cycle that culminates in its completion.
+    //CompletableJob is created with a Job() factory function.
+// It is completed by calling CompletableJob.complete.
     private var getNotesJob: Job? = null
 
     init {

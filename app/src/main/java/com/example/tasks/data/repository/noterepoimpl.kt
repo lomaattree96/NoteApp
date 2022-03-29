@@ -5,6 +5,8 @@ import com.example.tasks.data.model.Notes
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+//to tell Hilt how to provide instances of AppNavigatorImpl.
+// Since this class can be constructor injected, we can just annotate its constructor with @Inject.
 class Notesrepoimpl @Inject constructor( private val NotesDao: NoteDao) :Note_repo{
     override fun getNotes(): Flow<List<Notes>> {
       return  NotesDao.getNotes()
