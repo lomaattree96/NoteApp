@@ -25,7 +25,7 @@ import com.example.tasks.util.Nav_Screen
 
 
 
-//END TO END TESTING
+//END TO END TESTING --test the actual user interaction
 
 
 
@@ -88,15 +88,17 @@ class Notes_endtoendtest {
 
 
     @Test
-
     fun saveNewNotes_editAfterwards(){
-
         //click on fab to save new note and get new note screen
         //check our notescreen for add
         composeRule.onNodeWithContentDescription("Add")
+            .performClick()
 
 
         //enter text in title  and content text field
+
+        //FIRST GO TO HINTTEXTFIELD ADD TESTTAG = " "
+        //THEN GOTO ADD EDIT NOTE SCRREN GOTO --- HINTTEXT FIELD PART --ADD TESTTAG FOR TITLE TEXT FIELD AND CONTENT TEXT FIELD
         composeRule
             .onNodeWithTag(TestTags.TITLE_TEXT_FIELD)
             .performTextInput("test-title")
@@ -107,6 +109,7 @@ class Notes_endtoendtest {
 
         //save the note
         //check add edit note screen
+        //TAKE US BACK TO NEW NOTE WHICH IS ADDED
         composeRule
             .onNodeWithContentDescription("Save")
             .performClick()

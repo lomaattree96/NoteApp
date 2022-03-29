@@ -79,12 +79,18 @@ class Notes__ScreenTest{
 
     @Test
     fun ClickOrderToggleSectiion_isVisible() {
+
+        //to get context of test case
+        //val context = ApplicationProvider.getApplicationContext<Context>()
         //UI test for note screen
         //first needs to find a  part which contains a specific UI component for UI
         //then either it should do assertion or action
         composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertDoesNotExist()
         //make the order section visible
-        composeRule.onNodeWithContentDescription("Sort").performClick()
+        //click on our toggle icon
+        composeRule.onNodeWithContentDescription("Sort").performClick() //check the note screen for sort icon
+
+        //this part of section should be visible while clicking on the icon
         composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertIsDisplayed()
     }
 }
